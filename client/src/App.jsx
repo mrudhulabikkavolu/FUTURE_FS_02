@@ -18,9 +18,10 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-const [isLoggedIn, setIsLoggedIn] = useState(
-  !!localStorage.getItem("token")
-);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem("token")
+  );
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -78,7 +79,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(
     try {
 
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://future-fs-02-7rgs.onrender.com/api/auth/login",
         loginData
       );
 
@@ -100,15 +101,17 @@ const [isLoggedIn, setIsLoggedIn] = useState(
     }
   };
 
+  // LOGOUT FUNCTION
+
   const handleLogout = () => {
 
-  localStorage.removeItem("token");
+    localStorage.removeItem("token");
 
-  setIsLoggedIn(false);
+    setIsLoggedIn(false);
 
-  alert("Logged Out");
+    alert("Logged Out");
 
-};
+  };
 
   // ADD / UPDATE LEAD
 
@@ -123,7 +126,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(
       if (editId) {
 
         response = await axios.put(
-          `http://localhost:5000/api/leads/${editId}`,
+          `https://future-fs-02-7rgs.onrender.com/api/leads/${editId}`,
           formData
         );
 
@@ -132,7 +135,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(
       } else {
 
         response = await axios.post(
-          "http://localhost:5000/api/leads/add",
+          "https://future-fs-02-7rgs.onrender.com/api/leads/add",
           formData
         );
 
@@ -167,26 +170,26 @@ const [isLoggedIn, setIsLoggedIn] = useState(
 
   const fetchLeads = async () => {
 
-  try {
+    try {
 
-    setLoading(true);
+      setLoading(true);
 
-    const response = await axios.get(
-      "http://localhost:5000/api/leads"
-    );
+      const response = await axios.get(
+        "https://future-fs-02-7rgs.onrender.com/api/leads"
+      );
 
-    setLeads(response.data);
+      setLeads(response.data);
 
-  } catch (error) {
+    } catch (error) {
 
-    console.log(error);
+      console.log(error);
 
-  } finally {
+    } finally {
 
-    setLoading(false);
+      setLoading(false);
 
-  }
-};
+    }
+  };
 
   // DELETE LEAD
 
@@ -195,7 +198,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(
     try {
 
       await axios.delete(
-        `http://localhost:5000/api/leads/${id}`
+        `https://future-fs-02-7rgs.onrender.com/api/leads/${id}`
       );
 
       alert("Lead Deleted");
@@ -243,20 +246,9 @@ const [isLoggedIn, setIsLoggedIn] = useState(
 
           <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
 
-            <div className="flex justify-between items-center mb-8">
-
-  <h1 className="text-4xl font-bold text-blue-600">
-    Mini CRM
-  </h1>
-
-  <button
-    onClick={handleLogout}
-    className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600"
-  >
-    Logout
-  </button>
-
-</div>
+            <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
+              CRM Login
+            </h1>
 
             <form
               onSubmit={handleLogin}
@@ -300,9 +292,22 @@ const [isLoggedIn, setIsLoggedIn] = useState(
 
         <div className="min-h-screen bg-gray-100 p-6">
 
-          <h1 className="text-4xl font-bold text-center text-blue-600 mb-8">
-            Mini CRM
-          </h1>
+          {/* HEADER */}
+
+          <div className="flex justify-between items-center mb-8">
+
+            <h1 className="text-4xl font-bold text-blue-600">
+              Mini CRM
+            </h1>
+
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600"
+            >
+              Logout
+            </button>
+
+          </div>
 
           {/* DASHBOARD CARDS */}
 
@@ -470,93 +475,93 @@ const [isLoggedIn, setIsLoggedIn] = useState(
 
                 <tbody>
 
-  {loading ? (
+                  {loading ? (
 
-    <tr>
-      <td
-        colSpan="7"
-        className="text-center p-6 text-gray-500"
-      >
-        Loading leads...
-      </td>
-    </tr>
+                    <tr>
+                      <td
+                        colSpan="7"
+                        className="text-center p-6 text-gray-500"
+                      >
+                        Loading leads...
+                      </td>
+                    </tr>
 
-  ) : filteredLeads.length === 0 ? (
+                  ) : filteredLeads.length === 0 ? (
 
-    <tr>
-      <td
-        colSpan="7"
-        className="text-center p-6 text-gray-500"
-      >
-        No leads found
-      </td>
-    </tr>
+                    <tr>
+                      <td
+                        colSpan="7"
+                        className="text-center p-6 text-gray-500"
+                      >
+                        No leads found
+                      </td>
+                    </tr>
 
-  ) : (
+                  ) : (
 
-    filteredLeads.map((lead) => (
+                    filteredLeads.map((lead) => (
 
-      <tr
-        key={lead._id}
-        className="border-b hover:bg-gray-100"
-      >
+                      <tr
+                        key={lead._id}
+                        className="border-b hover:bg-gray-100"
+                      >
 
-        <td className="p-3">{lead.name}</td>
+                        <td className="p-3">{lead.name}</td>
 
-        <td className="p-3">{lead.email}</td>
+                        <td className="p-3">{lead.email}</td>
 
-        <td className="p-3">{lead.phone}</td>
+                        <td className="p-3">{lead.phone}</td>
 
-        <td className="p-3">{lead.company}</td>
+                        <td className="p-3">{lead.company}</td>
 
-        <td className="p-3">
+                        <td className="p-3">
 
-          <span
-            className={`px-3 py-1 rounded-full text-white text-sm font-semibold
+                          <span
+                            className={`px-3 py-1 rounded-full text-white text-sm font-semibold
 
-            ${lead.status === "New" && "bg-blue-500"}
+                            ${lead.status === "New" && "bg-blue-500"}
 
-            ${lead.status === "Contacted" && "bg-yellow-500"}
+                            ${lead.status === "Contacted" && "bg-yellow-500"}
 
-            ${lead.status === "Interested" && "bg-purple-500"}
+                            ${lead.status === "Interested" && "bg-purple-500"}
 
-            ${lead.status === "Converted" && "bg-green-500"}
+                            ${lead.status === "Converted" && "bg-green-500"}
 
-            ${lead.status === "Closed" && "bg-red-500"}
-          `}
-          >
-            {lead.status}
-          </span>
+                            ${lead.status === "Closed" && "bg-red-500"}
+                          `}
+                          >
+                            {lead.status}
+                          </span>
 
-        </td>
+                        </td>
 
-        <td className="p-3">{lead.notes}</td>
+                        <td className="p-3">{lead.notes}</td>
 
-        <td className="p-3 flex gap-2">
+                        <td className="p-3 flex gap-2">
 
-          <button
-            onClick={() => editLead(lead)}
-            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-          >
-            Edit
-          </button>
+                          <button
+                            onClick={() => editLead(lead)}
+                            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+                          >
+                            Edit
+                          </button>
 
-          <button
-            onClick={() => deleteLead(lead._id)}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-          >
-            Delete
-          </button>
+                          <button
+                            onClick={() => deleteLead(lead._id)}
+                            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                          >
+                            Delete
+                          </button>
 
-        </td>
+                        </td>
 
-      </tr>
+                      </tr>
 
-    ))
+                    ))
 
-  )}
+                  )}
 
-</tbody>
+                </tbody>
 
               </table>
 
